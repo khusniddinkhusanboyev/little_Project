@@ -1,7 +1,9 @@
 import java.io.PrintStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Controller {
     private final String URL = "jdbc:mysql://localhost:3306/markets";
@@ -9,19 +11,18 @@ public class Controller {
     private final String PASSWORD = "admin";
 
 
-    public String save(Product product) {
-        for (Product productName : findAll()) {
-            if (product.getName().equalsIgnoreCase(productName.getName())) {
+    public String save(String sname , int samount,int sprice) {
+        for (Product product: findAll()){
+            if (product.getName().equalsIgnoreCase(sname)){
                 return product.getName() + " is already exists in database";
-            } else {
+            }
+        }
                 try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
                     Statement statement = con.createStatement();
-                    statement.execute("insert into products(name,amount,price) values('" + product.getName() + "','" + product.getAmount() + "','" + product.getPrice() + "')");
+                    statement.execute("insert into products(name,amount,price) values('" + sname + "','" + samount + "','" +sprice + "')");
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-            }
-        }
                 return "Process successful";
     }
 
@@ -61,7 +62,7 @@ public class Controller {
     public String alter(String name, int amount, int price) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             Statement statement = connection.createStatement();
-            statement.execute("update products set name='" + name + "', amount='" + amount + "',price='" + price + "' where name='" + name + "'");
+            statement.execute("update products set name='" + name + "', amount='" +(find(name).getAmount()+amount) + "',price='" + price + "' where name='" + name + "'");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -108,5 +109,32 @@ public class Controller {
             throw new RuntimeException(e);
         }
         return products;
+    }
+
+    public List<String> user(){
+        List<String> usr=new ArrayList<>();
+        try(Connection user=DriverManager.getConnection(URL,USER,PASSWORD)) {
+                Statement stmt=user.createStatement();
+                ResultSet rs=stmt.executeQuery("select * from markets.securety");
+                while (rs.next()){
+                    usr.add(rs.getString(2));
+                        }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usr;
+    }
+    public List<Integer> password(){
+        List<Integer> pr=new ArrayList<>();
+        try(Connection user=DriverManager.getConnection(URL,USER,PASSWORD)) {
+            Statement stmt=user.createStatement();
+            ResultSet rs=stmt.executeQuery("select * from markets.securety");
+            while (rs.next()){
+                pr.add(rs.getInt(3));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return pr;
     }
 }

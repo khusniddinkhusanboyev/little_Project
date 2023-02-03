@@ -1,10 +1,10 @@
 public class Supplier {
     Controller controller;
 
-    public void addProduct(Product product){
+   /* public void addProduct(Product product){
         controller.save(product);
     }
-
+*/
     public void alertProductDetails(String name,int amount){
         controller.update(name, amount);
     }
