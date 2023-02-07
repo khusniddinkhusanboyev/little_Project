@@ -1,6 +1,6 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,14 +14,14 @@ public class Main {
             int n = -1;
             while (n != 0) {
                 int count = 0;
-                System.out.print(MyColor.GREEN + "Welcome consumer :\n 1: see all \n 2: buy \n 3: find \n 0: cencel \n choose : ");
+                System.out.print(MyColor.GREEN + "Welcome consumer :\n 1: see all \n 2: buy \n 3: find  \n 0: cencel \n choose : ");
                 n = s.nextInt();
 
                 switch (n) {
                     case 1 -> {
                         System.out.println(MyColor.RED + "-----------------------------------------");
                         System.out.println("    Name " + " " + " Amount " + "  " + " Price ");
-                        controller.findAll().forEach(a -> System.out.println(MyColor.YELLOW + " | " + a.getName() + " --- " + a.getAmount() + " --- " + controller.formatter(a.getPrice()) + " | "));
+                        controller.findAll().forEach(a -> System.out.println(MyColor.YELLOW + " | " + a.getName() + " --- " + controller.formatter(a.getAmount()) + " --- " + controller.formatter(a.getPrice()) + " | "));
                         System.out.println(MyColor.RED + "-----------------------------------------");
                     }
                     case 2 -> {
@@ -38,7 +38,7 @@ public class Main {
                             System.out.println(MyColor.RED + "0 : exit and get check > ");
                             for (int i = 0; i < controller.findAll().size(); i++) {
                                 items.put(i, controller.findAll().get(i).getName());
-                                System.out.println(MyColor.BlUE + (count += 1) + " : " + controller.findAll().get(i).getName() + "     price: " + controller.findAll().get(i).getPrice());
+                                System.out.println(MyColor.BlUE + (count += 1) + " : " + controller.findAll().get(i).getName() +" <"+controller.formatter(controller.findAll().get(i).getAmount())+"> "+ "     price: " + controller.formatter(controller.findAll().get(i).getPrice()));
                             }
                             System.out.print(MyColor.YELLOW + "choose products : ");
                             item = scr.nextInt();
@@ -68,7 +68,10 @@ public class Main {
                         if (!miqdor.isEmpty() && !summa.isEmpty()) {
 
                             for(Product keyAmount:controller.findAll()){
-                                if (keyAmount.getAmount()>limit){
+                                if (keyAmount.getAmount()<limit){
+                                    System.out.println(" check does not exist!!!");
+                                    return;
+                                }else {
                                     System.out.println(MyColor.WHITE + "--------");
                                     System.out.println("Check: ");
                                     int sum = 0;
@@ -78,9 +81,6 @@ public class Main {
                                     }
                                     System.out.println(MyColor.YELLOW + "Total Price: " + controller.formatter(sum));
                                     System.out.println(MyColor.YELLOW + "QQS :12% is tax of total price  " + controller.formatter((int) (sum * 0.12)));
-
-                                }else {
-                                    System.out.println(" check does not exist!!!");
                                     return;
                                 }
                             }
@@ -101,10 +101,12 @@ public class Main {
                         System.out.println(MyColor.BlUE + controller.find(names).getId() + " : " + controller.find(names).getName() + " : " + controller.find(names).getAmount() + " : " + controller.formatter(controller.find(names).getPrice()) + "\n ---------------");
                     }
 
+
                     case 0 -> {
                         System.out.println(MyColor.RED + " application is stopped ");
 
                     }
+
                 }
             }
 
@@ -212,7 +214,7 @@ public class Main {
                 System.err.println("Unsupported");
             }
         } else {
-            System.out.println("Incorrexr password or username");
+            System.out.println("eey what are you writing here!!!");
         }
 
 
