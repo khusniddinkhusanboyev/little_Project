@@ -162,6 +162,5 @@ public class Controller {
 
     public String formatter(Integer unformatted){
         return NumberFormat.getInstance(Locale.of("sk","SK")).format(unformatted);
-
     }
 }

@@ -1,5 +1,10 @@
+import javax.print.attribute.standard.DateTimeAtCreation;
 import javax.xml.crypto.Data;
+import java.security.Timestamp;
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class Main {
@@ -8,13 +13,19 @@ public class Main {
         Controller controller = new Controller();
         //Are you Consumer or Supplier?
         System.out.print(MyColor.YELLOW + "who are you  \n 1 : admin \n 2: consumer \n choose balove  ");
+            LocalDateTime time = LocalDateTime.now();
+            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy  HH:mm:ss");
+          String formattedTime= time.format(formatter);
+
+
+
         int ke = sr.nextInt();
         if (ke == 2) {
             Scanner s = new Scanner(System.in);
             int n = -1;
             while (n != 0) {
                 int count = 0;
-                System.out.print(MyColor.GREEN + "Welcome consumer :\n 1: see all \n 2: buy \n 3: find  \n 0: cencel \n choose : ");
+                System.out.print(MyColor.GREEN +" "+formattedTime+ "\n Welcome consumer :\n 1: see all \n 2: buy \n 3: find  \n 0: cencel \n choose : ");
                 n = s.nextInt();
 
                 switch (n) {
@@ -121,7 +132,7 @@ public class Main {
                 int n = -1;
                 int count = 0;
                 while (n != 0) {
-                    System.out.print(MyColor.BlUE + "Welcome supplier :\n 1: add product \n 2: change \n 3: delete  \n 0: cencel \n choose:  ");
+                    System.out.print(MyColor.BlUE +""+formattedTime+ " \nWelcome supplier :\n 1: add product \n 2: change \n 3: delete  \n 0: cencel \n choose:  ");
                     n = sr.nextInt();
                     switch (n) {
                         case 1 -> {
@@ -132,7 +143,7 @@ public class Main {
                             System.out.println(MyColor.RED + "-----------------------------------------" + "\n Add New Product ");
                             Scanner scnr = new Scanner(System.in);
                             System.out.print(MyColor.CYAN + "input name: ");
-                            String name = scnr.nextLine();
+                            String name = scnr.nextLine().trim();
                             if (name.equalsIgnoreCase("0")) {
                                 System.out.println("the process is ended");
                                 break;
@@ -175,7 +186,7 @@ public class Main {
                                 int addTo = alt.nextInt();
                                 System.out.print(MyColor.YELLOW + "price :  ");
                                 int price = alt.nextInt();
-                                System.out.print(controller.alter(controller.find(itm.get(item - 1)).getId(),otherName,addTo, price));
+                                System.out.print(controller.alter(controller.find(itm.get(item - 1)).getId(),otherName.trim(),addTo, price));
                                 count = 0;
                             } while (item != 0);
                             System.out.println("the process is ended");
